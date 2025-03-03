@@ -27,21 +27,30 @@ const tarotCards = [
   { id: 22, name: "The World", description: "Completion, accomplishment, travel" }
 ];
 
-// Card component
+// Card component with improved ASCII art
 const Card = ({ card, isReversed }) => {
+  // Function to generate better ASCII art based on card ID
+  const getCardArt = (id) => {
+    const num = id.toString().padStart(2, '0');
+    return `┌────────────┐
+│ ${num}         │
+│            │
+│  ╭──────╮  │
+│  │      │  │
+│  │      │  │
+│  ╰──────╯  │
+│            │
+│         ${num} │
+└────────────┘`;
+  };
+
   return (
     <div className={`card ${isReversed ? 'reversed' : ''}`}>
       <div className="card-title">{card.name}</div>
       <div className="card-art">
-        {/* Simple ASCII art representation */}
-        ┌────────┐<br/>
-        │        │<br/>
-        │  {card.id.toString().padStart(2, '0')}    │<br/>
-        │        │<br/>
-        │        │<br/>
-        │        │<br/>
-        └────────┘
+        {getCardArt(card.id)}
       </div>
+      <div className="card-description">{card.description}</div>
       {isReversed && <div className="reversed-indicator">Reversed</div>}
     </div>
   );
@@ -151,6 +160,11 @@ const App = () => {
         <span className="vim-cursor"></span>
       </form>
       
+      <div className="status-line">
+        <span className="status-mode">NORMAL</span>
+        <span>Tarot de Marseille v1.0</span>
+      </div>
+      
       {showCommandHelp && (
         <div className="command-help">
           <h3>Available Commands</h3>
@@ -161,11 +175,6 @@ const App = () => {
           </ul>
         </div>
       )}
-      
-      <div className="status-line">
-        <span className="status-mode">NORMAL</span>
-        <span>Tarot de Marseille v1.0</span>
-      </div>
     </div>
   );
 };
