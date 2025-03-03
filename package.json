@@ -1,6 +1,7 @@
 {
     "name": "tarot-marseille",
     "version": "1.0.0",
+    "type": "module",
     "description": "A Tarot de Marseille card reading app with NeoVim aesthetic",
     "main": "src/index.js",
     "scripts": {
