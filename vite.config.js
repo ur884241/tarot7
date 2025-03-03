@@ -6,7 +6,7 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: 'dist', // Output directory for the build
+    outDir: 'build', // Change this to 'build' instead of 'dist'
     emptyOutDir: true, // Clear the output directory before building
     rollupOptions: {
       input: {
