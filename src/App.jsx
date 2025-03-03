@@ -3,291 +3,290 @@ import './styles/main.css';
 
 // Tarot card data
 const tarotCards = [
-  { id: 1, name: "The Fool", description: "New beginnings, spontaneity, faith" },
-  { id: 2, name: "The Magician", description: "Manifestation, resourcefulness, power" },
-  { id: 3, name: "The High Priestess", description: "Intuition, unconscious, inner voice" },
-  { id: 4, name: "The Empress", description: "Femininity, beauty, nature, abundance" },
-  { id: 5, name: "The Emperor", description: "Authority, structure, control, leadership" },
-  { id: 6, name: "The Hierophant", description: "Tradition, conformity, morality, ethics" },
-  { id: 7, name: "The Lovers", description: "Love, harmony, relationships, values alignment" },
-  { id: 8, name: "The Chariot", description: "Control, willpower, success, determination" },
-  { id: 9, name: "Strength", description: "Courage, patience, control, compassion" },
-  { id: 10, name: "The Hermit", description: "Soul-searching, introspection, guidance" },
-  { id: 11, name: "Wheel of Fortune", description: "Change, cycles, fate, turning point" },
-  { id: 12, name: "Justice", description: "Fairness, truth, law, cause and effect" },
-  { id: 13, name: "The Hanged Man", description: "Surrender, letting go, new perspective" },
-  { id: 14, name: "Death", description: "Endings, change, transformation, transition" },
-  { id: 15, name: "Temperance", description: "Balance, moderation, patience, purpose" },
-  { id: 16, name: "The Devil", description: "Shadow self, attachment, addiction, restriction" },
-  { id: 17, name: "The Tower", description: "Sudden change, revelation, disaster, upheaval" },
-  { id: 18, name: "The Star", description: "Hope, faith, purpose, renewal, spirituality" },
-  { id: 19, name: "The Moon", description: "Illusion, fear, anxiety, subconscious, intuition" },
-  { id: 20, name: "The Sun", description: "Positivity, fun, warmth, success, vitality" },
-  { id: 21, name: "Judgment", description: "Rebirth, inner calling, absolution" },
-  { id: 22, name: "The World", description: "Completion, accomplishment, travel" }
+  { id: 0, name: "The Fool", description: "New beginnings, spontaneity, faith" },
+  { id: 1, name: "The Magician", description: "Manifestation, resourcefulness, power" },
+  { id: 2, name: "High Priestess", description: "Intuition, unconscious, inner voice" },
+  { id: 3, name: "The Empress", description: "Femininity, beauty, nature, abundance" },
+  { id: 4, name: "The Emperor", description: "Authority, structure, control, leadership" },
+  { id: 5, name: "Hierophant", description: "Tradition, conformity, morality, ethics" },
+  { id: 6, name: "The Lovers", description: "Love, harmony, relationships, values alignment" },
+  { id: 7, name: "The Chariot", description: "Control, willpower, success, determination" },
+  { id: 8, name: "Strength", description: "Courage, patience, control, compassion" },
+  { id: 9, name: "The Hermit", description: "Soul-searching, introspection, guidance" },
+  { id: 10, name: "Wheel of Fortune", description: "Change, cycles, fate, turning point" },
+  { id: 11, name: "Justice", description: "Fairness, truth, law, cause and effect" },
+  { id: 12, name: "Hanged Man", description: "Surrender, letting go, new perspective" },
+  { id: 13, name: "Death", description: "Endings, change, transformation, transition" },
+  { id: 14, name: "Temperance", description: "Balance, moderation, patience, purpose" },
+  { id: 15, name: "The Devil", description: "Shadow self, attachment, addiction, restriction" },
+  { id: 16, name: "The Tower", description: "Sudden change, revelation, disaster, upheaval" },
+  { id: 17, name: "The Star", description: "Hope, faith, purpose, renewal, spirituality" },
+  { id: 18, name: "The Moon", description: "Illusion, fear, anxiety, subconscious, intuition" },
+  { id: 19, name: "The Sun", description: "Positivity, fun, warmth, success, vitality" },
+  { id: 20, name: "Judgment", description: "Rebirth, inner calling, absolution" },
+  { id: 21, name: "The World", description: "Completion, accomplishment, travel" }
 ];
 
-// Card component with custom ASCII art for each card
+// Card component with uniform ASCII art
 const Card = ({ card, isReversed }) => {
-  // Function to generate custom ASCII art based on card ID
+  // Function to generate uniform ASCII art based on card ID
   const getCardArt = (id) => {
     const num = id.toString().padStart(2, '0');
     
-    // Custom art for each card
+    // Custom art for each card with consistent dimensions
     switch(id) {
-      case 1: // The Fool
-        return `┌────────────┐
-│ ${num}         │
-│     ☼      │
-│   \\o/      │
-│    |       │
-│   / \\      │
-│  ~~~~~~~   │
-│         ${num} │
-└────────────┘`;
+      case 0: // The Fool
+        return `┌──────────┐
+│${num}        │
+│    ☼     │
+│   \\o/    │
+│    |     │
+│   / \\    │
+│  ~~~~~   │
+│        ${num}│
+└──────────┘`;
       
-      case 2: // The Magician
-        return `┌────────────┐
-│ ${num}         │
-│     ∞      │
-│    _|_     │
-│   /   \\    │
-│   \\___/    │
-│    ♠♥♦♣    │
-│         ${num} │
-└────────────┘`;
+      case 1: // The Magician
+        return `┌──────────┐
+│${num}        │
+│    ∞     │
+│   _|_    │
+│  /   \\   │
+│  \\___/   │
+│   ♠♥♦♣   │
+│        ${num}│
+└──────────┘`;
       
-      case 3: // The High Priestess
-        return `┌────────────┐
-│ ${num}         │
-│     ☽☽     │
-│    ┌─┐     │
-│    │B│     │
-│    └─┘     │
-│    ≈≈≈     │
-│         ${num} │
-└────────────┘`;
+      case 2: // High Priestess
+        return `┌──────────┐
+│${num}        │
+│    ☽☽    │
+│   ┌─┐    │
+│   │B│    │
+│   └─┘    │
+│   ≈≈≈    │
+│        ${num}│
+└──────────┘`;
       
-      case 4: // The Empress
-        return `┌────────────┐
-│ ${num}         │
-│     ♀      │
-│    \\│/     │
-│   ⚘ │ ⚘    │
-│    /│\\     │
-│    ♥♥♥     │
-│         ${num} │
-└────────────┘`;
+      case 3: // The Empress
+        return `┌──────────┐
+│${num}        │
+│    ♀     │
+│   \\|/    │
+│  ⚘ | ⚘   │
+│   /|\\    │
+│   ♥♥♥    │
+│        ${num}│
+└──────────┘`;
       
-      case 5: // The Emperor
-        return `┌────────────┐
-│ ${num}         │
-│     ♂      │
-│    ┌─┐     │
-│    │♦│     │
-│    └─┘     │
-│    /|\\     │
-│         ${num} │
-└────────────┘`;
+      case 4: // The Emperor
+        return `┌──────────┐
+│${num}        │
+│    ♂     │
+│   ┌─┐    │
+│   │♦│    │
+│   └─┘    │
+│   /|\\    │
+│        ${num}│
+└──────────┘`;
       
-      case 6: // The Hierophant
-        return `┌────────────┐
-│ ${num}         │
-│     †      │
-│    ┌┬┐     │
-│    ││      │
-│    ┴┴      │
-│    ◎◎      │
-│         ${num} │
-└────────────┘`;
+      case 5: // Hierophant
+        return `┌──────────┐
+│${num}        │
+│    †     │
+│   ┌┬┐    │
+│   ││     │
+│   ┴┴     │
+│   ◎◎     │
+│        ${num}│
+└──────────┘`;
       
-      case 7: // The Lovers
-        return `┌────────────┐
-│ ${num}         │
-│     ♡      │
-│   ○   ○    │
-│    \\ /     │
-│     V      │
-│    / \\     │
-│         ${num} │
-└────────────┘`;
+      case 6: // The Lovers
+        return `┌──────────┐
+│${num}        │
+│    ♡     │
+│  ○   ○   │
+│   \\ /    │
+│    V     │
+│   / \\    │
+│        ${num}│
+└──────────┘`;
       
-      case 8: // The Chariot
-        return `┌────────────┐
-│ ${num}         │
-│    ☆☆☆     │
-│   ┌───┐    │
-│   │ ▲ │    │
-│   └───┘    │
-│   ◄►◄►     │
-│         ${num} │
-└────────────┘`;
+      case 7: // The Chariot
+        return `┌──────────┐
+│${num}        │
+│   ☆☆☆    │
+│  ┌───┐   │
+│  │ ▲ │   │
+│  └───┘   │
+│  ◄►◄►    │
+│        ${num}│
+└──────────┘`;
       
-      case 9: // Strength
-        return `┌────────────┐
-│ ${num}         │
-│     ∞      │
-│    ┌─┐     │
-│    │8│     │
-│    └─┘     │
-│    ^ω^     │
-│         ${num} │
-└────────────┘`;
+      case 8: // Strength
+        return `┌──────────┐
+│${num}        │
+│    ∞     │
+│   ┌─┐    │
+│   │8│    │
+│   └─┘    │
+│   ^ω^    │
+│        ${num}│
+└──────────┘`;
       
-      case 10: // The Hermit
-        return `┌────────────┐
-│ ${num}         │
-│     *      │
-│     │      │
-│    ┌┴┐     │
-│    │ │     │
-│    / \\     │
-│         ${num} │
-└────────────┘`;
+      case 9: // The Hermit
+        return `┌──────────┐
+│${num}        │
+│    *     │
+│    Λ     │
+│   /|\\    │
+│  / | \\   │
+│    |     │
+│        ${num}│
+└──────────┘`;
       
-      case 11: // Wheel of Fortune
-        return `┌────────────┐
-│ ${num}         │
-│     ⊛      │
-│   ┌───┐    │
-│   │ ⚙ │    │
-│   └───┘    │
-│    ↺↻      │
-│         ${num} │
-└────────────┘`;
+      case 10: // Wheel of Fortune
+        return `┌──────────┐
+│${num}        │
+│    ⊛     │
+│   ╭─╮    │
+│   │⊕│    │
+│   ╰─╯    │
+│   ⟳⟲     │
+│        ${num}│
+└──────────┘`;
       
-      case 12: // Justice
-        return `┌────────────┐
-│ ${num}         │
-│     ⚖      │
-│    ┌─┐     │
-│    │▲│     │
-│    └─┘     │
-│    ═╬═     │
-│         ${num} │
-└────────────┘`;
+      case 11: // Justice
+        return `┌──────────┐
+│${num}        │
+│    ⚖     │
+│   ┌─┐    │
+│   │≡│    │
+│   └─┘    │
+│   ◇◇◇    │
+│        ${num}│
+└──────────┘`;
       
-      case 13: // The Hanged Man
-        return `┌────────────┐
-│ ${num}         │
-│     ┬      │
-│     │      │
-│    \\O/     │
-│     │      │
-│    / \\     │
-│         ${num} │
-└────────────┘`;
+      case 12: // Hanged Man
+        return `┌──────────┐
+│${num}        │
+│    ⊥     │
+│    Λ     │
+│   /|\\    │
+│    |     │
+│   / \\    │
+│        ${num}│
+└──────────┘`;
       
-      case 14: // Death
-        return `┌────────────┐
-│ ${num}         │
-│     ☠      │
-│    ┌─┐     │
-│    │†│     │
-│    └─┘     │
-│    ┼┼┼     │
-│         ${num} │
-└────────────┘`;
+      case 13: // Death
+        return `┌──────────┐
+│${num}        │
+│    ☠     │
+│   ┌─┐    │
+│   │†│    │
+│   └─┘    │
+│   ⟿⟿⟿    │
+│        ${num}│
+└──────────┘`;
       
-      case 15: // Temperance
-        return `┌────────────┐
-│ ${num}         │
-│     ≈      │
-│    \\│/     │
-│   ≈ │ ≈    │
-│    /│\\     │
-│     ∿      │
-│         ${num} │
-└────────────┘`;
+      case 14: // Temperance
+        return `┌──────────┐
+│${num}        │
+│    ⚱     │
+│   ≈≈≈    │
+│   \\│/    │
+│    │     │
+│   / \\    │
+│        ${num}│
+└──────────┘`;
       
-      case 16: // The Devil
-        return `┌────────────┐
-│ ${num}         │
-│     ψ      │
-│    ┌∇┐     │
-│    │ │     │
-│    ┘ └     │
-│    ⛓⛓     │
-│         ${num} │
-└────────────┘`;
+      case 15: // The Devil
+        return `┌──────────┐
+│${num}        │
+│    ⛧     │
+│   ┌─┐    │
+│   │⚶│    │
+│   └─┘    │
+│   ⧗⧗⧗    │
+│        ${num}│
+└──────────┘`;
       
-      case 17: // The Tower
-        return `┌────────────┐
-│ ${num}         │
-│     ⚡      │
-│    ┌─┐     │
-│    │▓│     │
-│    │▓│     │
-│   ≡≡≡≡≡    │
-│         ${num} │
-└────────────┘`;
+      case 16: // The Tower
+        return `┌──────────┐
+│${num}        │
+│    ⚡     │
+│   ┌─┐    │
+│   │▲│    │
+│   └─┘    │
+│   ≡≡≡    │
+│        ${num}│
+└──────────┘`;
       
-      case 18: // The Star
-        return `┌────────────┐
-│ ${num}         │
-│    ★★★     │
-│     │      │
-│    \\│/     │
-│     │      │
-│    ≈≈≈     │
-│         ${num} │
-└────────────┘`;
+      case 17: // The Star
+        return `┌──────────┐
+│${num}        │
+│    ★     │
+│  * * *   │
+│   \\│/    │
+│    │     │
+│   / \\    │
+│        ${num}│
+└──────────┘`;
       
-      case 19: // The Moon
-        return `┌────────────┐
-│ ${num}         │
-│     ☾      │
-│    ┌─┐     │
-│    │○│     │
-│    └─┘     │
-│    ~w~     │
-│         ${num} │
-└────────────┘`;
+      case 18: // The Moon
+        return `┌──────────┐
+│${num}        │
+│    ☽     │
+│   ┌─┐    │
+│   │◑│    │
+│   └─┘    │
+│   ≈≈≈    │
+│        ${num}│
+└──────────┘`;
       
-      case 20: // The Sun
-        return `┌────────────┐
-│ ${num}         │
-│     ☀      │
-│    \\│/     │
-│   - O -    │
-│    /│\\     │
-│    ♨♨♨     │
-│         ${num} │
-└────────────┘`;
+      case 19: // The Sun
+        return `┌──────────┐
+│${num}        │
+│    ☀     │
+│   \\│/    │
+│  - O -   │
+│   /|\\    │
+│   ♨♨♨    │
+│        ${num}│
+└──────────┘`;
       
-      case 21: // Judgment
-        return `┌────────────┐
-│ ${num}         │
-│     ♫      │
-│    \\│/     │
-│     │      │
-│    ┌┴┐     │
-│    ┴┬┴     │
-│         ${num} │
-└────────────┘`;
+      case 20: // Judgment
+        return `┌──────────┐
+│${num}        │
+│    ♫     │
+│   \\│/    │
+│    │     │
+│   ┌┴┐    │
+│   ┴┬┴    │
+│        ${num}│
+└──────────┘`;
       
-      case 22: // The World
-        return `┌────────────┐
-│ ${num}         │
-│     ⊕      │
-│    \\│/     │
-│   - O -    │
-│    /│\\     │
-│    ◇◇◇     │
-│         ${num} │
-└────────────┘`;
+      case 21: // The World
+        return `┌──────────┐
+│${num}        │
+│    ⊕     │
+│   \\│/    │
+│  - O -   │
+│   /|\\    │
+│   ◇◇◇    │
+│        ${num}│
+└──────────┘`;
       
       default:
-        return `┌────────────┐
-│ ${num}         │
-│            │
-│  ╭──────╮  │
-│  │      │  │
-│  │      │  │
-│  ╰──────╯  │
-│            │
-│         ${num} │
-└────────────┘`;
+        return `┌──────────┐
+│${num}        │
+│          │
+│  ╭────╮  │
+│  │    │  │
+│  │    │  │
+│  ╰────╯  │
+│        ${num}│
+└──────────┘`;
     }
   };
 
@@ -297,7 +296,7 @@ const Card = ({ card, isReversed }) => {
       <div className="card-art">
         {getCardArt(card.id)}
       </div>
-      {isReversed && <div className="reversed-indicator">Reversed</div>}
+      {isReversed && <div className="reversed-indicator">Rev</div>}
     </div>
   );
 };
@@ -314,6 +313,38 @@ const App = () => {
     majorArcanaDrawn: 0,
     reversedPercentage: 0
   });
+  const [occultMetrics, setOccultMetrics] = useState({
+    lunarPhase: "Waxing",
+    elementalBalance: "Air",
+    numerologicalSum: 0
+  });
+
+  // Calculate occult metrics
+  useEffect(() => {
+    // Lunar phase calculation (simplified)
+    const date = new Date();
+    const dayOfMonth = date.getDate();
+    const lunarPhases = ["New", "Waxing", "Full", "Waning"];
+    const lunarPhase = lunarPhases[Math.floor((dayOfMonth % 28) / 7)];
+    
+    // Elemental balance based on current hour
+    const hour = date.getHours();
+    const elements = ["Fire", "Earth", "Air", "Water"];
+    const element = elements[Math.floor(hour / 6) % 4];
+    
+    // Numerological sum based on date
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const dateSum = Array.from(String(day + month + year)).reduce((sum, digit) => sum + parseInt(digit), 0);
+    const numerologicalSum = dateSum > 9 ? Array.from(String(dateSum)).reduce((sum, digit) => sum + parseInt(digit), 0) : dateSum;
+    
+    setOccultMetrics({
+      lunarPhase,
+      elementalBalance: element,
+      numerologicalSum
+    });
+  }, []);
 
   // Draw cards function
   const drawCards = () => {
@@ -356,7 +387,11 @@ const App = () => {
       setShowCommandHelp(!showCommandHelp);
     } else if (commandInput.toLowerCase() === 'clear') {
       setHistory([]);
-      setReading([]);
+      setMetrics({
+        totalReadings: 0,
+        majorArcanaDrawn: 0,
+        reversedPercentage: 0
+      });
     }
     setCommandInput('');
   };
@@ -364,7 +399,7 @@ const App = () => {
   return (
     <div className="container">
       <h1 className="title">Tarot de Marseille</h1>
-      <p className="subtitle">A digital card reading experience</p>
+      <p className="subtitle">digital divination</p>
       
       <div className="data-metrics">
         <div className="metric-box">
@@ -378,6 +413,21 @@ const App = () => {
         <div className="metric-box">
           <div className="metric-title">Reversed %</div>
           <div className="metric-value">{metrics.reversedPercentage}%</div>
+        </div>
+      </div>
+      
+      <div className="occult-metrics">
+        <div className="occult-box">
+          <div className="occult-title">Lunar Phase</div>
+          <div className="occult-value"><span className="occult-symbol">☽</span>{occultMetrics.lunarPhase}</div>
+        </div>
+        <div className="occult-box">
+          <div className="occult-title">Element</div>
+          <div className="occult-value"><span className="occult-symbol">⊕</span>{occultMetrics.elementalBalance}</div>
+        </div>
+        <div className="occult-box">
+          <div className="occult-title">Numerology</div>
+          <div className="occult-value"><span className="occult-symbol">∞</span>{occultMetrics.numerologicalSum}</div>
         </div>
       </div>
       
