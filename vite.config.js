@@ -6,11 +6,11 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: 'build', // Change this to 'build' instead of 'dist'
+    outDir: 'dist', // Change this to 'dist' to match Vercel config
     emptyOutDir: true, // Clear the output directory before building
     rollupOptions: {
       input: {
-        main: path.resolve(__dirname, 'public/index.html'), // Explicitly specify the entry point
+        main: path.resolve(__dirname, 'index.html'), // Update entry point path
       },
     },
   },
