@@ -363,7 +363,7 @@ input[type="number"]:focus {
 
 .command-help {
     position: fixed;
-    bottom: 30px;
+    bottom: 60px;
     right: 0;
     background-color: rgba(10, 10, 10, 0.8);
     backdrop-filter: blur(5px);
@@ -462,7 +462,7 @@ input[type="number"]:focus {
     
     .command-help {
         position: fixed;
-        bottom: 30px;
+        bottom: 60px;
         right: 0;
         left: 0;
         max-width: 100%;

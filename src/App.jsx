@@ -27,12 +27,258 @@ const tarotCards = [
   { id: 22, name: "The World", description: "Completion, accomplishment, travel" }
 ];
 
-// Card component with improved ASCII art
+// Card component with custom ASCII art for each card
 const Card = ({ card, isReversed }) => {
-  // Function to generate better ASCII art based on card ID
+  // Function to generate custom ASCII art based on card ID
   const getCardArt = (id) => {
     const num = id.toString().padStart(2, '0');
-    return `┌────────────┐
+    
+    // Custom art for each card
+    switch(id) {
+      case 1: // The Fool
+        return `┌────────────┐
+│ ${num}         │
+│     ☼      │
+│   \\o/      │
+│    |       │
+│   / \\      │
+│  ~~~~~~~   │
+│         ${num} │
+└────────────┘`;
+      
+      case 2: // The Magician
+        return `┌────────────┐
+│ ${num}         │
+│     ∞      │
+│    _|_     │
+│   /   \\    │
+│   \\___/    │
+│    ♠♥♦♣    │
+│         ${num} │
+└────────────┘`;
+      
+      case 3: // The High Priestess
+        return `┌────────────┐
+│ ${num}         │
+│     ☽☽     │
+│    ┌─┐     │
+│    │B│     │
+│    └─┘     │
+│    ≈≈≈     │
+│         ${num} │
+└────────────┘`;
+      
+      case 4: // The Empress
+        return `┌────────────┐
+│ ${num}         │
+│     ♀      │
+│    \\│/     │
+│   ⚘ │ ⚘    │
+│    /│\\     │
+│    ♥♥♥     │
+│         ${num} │
+└────────────┘`;
+      
+      case 5: // The Emperor
+        return `┌────────────┐
+│ ${num}         │
+│     ♂      │
+│    ┌─┐     │
+│    │♦│     │
+│    └─┘     │
+│    /|\\     │
+│         ${num} │
+└────────────┘`;
+      
+      case 6: // The Hierophant
+        return `┌────────────┐
+│ ${num}         │
+│     †      │
+│    ┌┬┐     │
+│    ││      │
+│    ┴┴      │
+│    ◎◎      │
+│         ${num} │
+└────────────┘`;
+      
+      case 7: // The Lovers
+        return `┌────────────┐
+│ ${num}         │
+│     ♡      │
+│   ○   ○    │
+│    \\ /     │
+│     V      │
+│    / \\     │
+│         ${num} │
+└────────────┘`;
+      
+      case 8: // The Chariot
+        return `┌────────────┐
+│ ${num}         │
+│    ☆☆☆     │
+│   ┌───┐    │
+│   │ ▲ │    │
+│   └───┘    │
+│   ◄►◄►     │
+│         ${num} │
+└────────────┘`;
+      
+      case 9: // Strength
+        return `┌────────────┐
+│ ${num}         │
+│     ∞      │
+│    ┌─┐     │
+│    │8│     │
+│    └─┘     │
+│    ^ω^     │
+│         ${num} │
+└────────────┘`;
+      
+      case 10: // The Hermit
+        return `┌────────────┐
+│ ${num}         │
+│     *      │
+│     │      │
+│    ┌┴┐     │
+│    │ │     │
+│    / \\     │
+│         ${num} │
+└────────────┘`;
+      
+      case 11: // Wheel of Fortune
+        return `┌────────────┐
+│ ${num}         │
+│     ⊛      │
+│   ┌───┐    │
+│   │ ⚙ │    │
+│   └───┘    │
+│    ↺↻      │
+│         ${num} │
+└────────────┘`;
+      
+      case 12: // Justice
+        return `┌────────────┐
+│ ${num}         │
+│     ⚖      │
+│    ┌─┐     │
+│    │▲│     │
+│    └─┘     │
+│    ═╬═     │
+│         ${num} │
+└────────────┘`;
+      
+      case 13: // The Hanged Man
+        return `┌────────────┐
+│ ${num}         │
+│     ┬      │
+│     │      │
+│    \\O/     │
+│     │      │
+│    / \\     │
+│         ${num} │
+└────────────┘`;
+      
+      case 14: // Death
+        return `┌────────────┐
+│ ${num}         │
+│     ☠      │
+│    ┌─┐     │
+│    │†│     │
+│    └─┘     │
+│    ┼┼┼     │
+│         ${num} │
+└────────────┘`;
+      
+      case 15: // Temperance
+        return `┌────────────┐
+│ ${num}         │
+│     ≈      │
+│    \\│/     │
+│   ≈ │ ≈    │
+│    /│\\     │
+│     ∿      │
+│         ${num} │
+└────────────┘`;
+      
+      case 16: // The Devil
+        return `┌────────────┐
+│ ${num}         │
+│     ψ      │
+│    ┌∇┐     │
+│    │ │     │
+│    ┘ └     │
+│    ⛓⛓     │
+│         ${num} │
+└────────────┘`;
+      
+      case 17: // The Tower
+        return `┌────────────┐
+│ ${num}         │
+│     ⚡      │
+│    ┌─┐     │
+│    │▓│     │
+│    │▓│     │
+│   ≡≡≡≡≡    │
+│         ${num} │
+└────────────┘`;
+      
+      case 18: // The Star
+        return `┌────────────┐
+│ ${num}         │
+│    ★★★     │
+│     │      │
+│    \\│/     │
+│     │      │
+│    ≈≈≈     │
+│         ${num} │
+└────────────┘`;
+      
+      case 19: // The Moon
+        return `┌────────────┐
+│ ${num}         │
+│     ☾      │
+│    ┌─┐     │
+│    │○│     │
+│    └─┘     │
+│    ~w~     │
+│         ${num} │
+└────────────┘`;
+      
+      case 20: // The Sun
+        return `┌────────────┐
+│ ${num}         │
+│     ☀      │
+│    \\│/     │
+│   - O -    │
+│    /│\\     │
+│    ♨♨♨     │
+│         ${num} │
+└────────────┘`;
+      
+      case 21: // Judgment
+        return `┌────────────┐
+│ ${num}         │
+│     ♫      │
+│    \\│/     │
+│     │      │
+│    ┌┴┐     │
+│    ┴┬┴     │
+│         ${num} │
+└────────────┘`;
+      
+      case 22: // The World
+        return `┌────────────┐
+│ ${num}         │
+│     ⊕      │
+│    \\│/     │
+│   - O -    │
+│    /│\\     │
+│    ◇◇◇     │
+│         ${num} │
+└────────────┘`;
+      
+      default:
+        return `┌────────────┐
 │ ${num}         │
 │            │
 │  ╭──────╮  │
@@ -42,6 +288,7 @@ const Card = ({ card, isReversed }) => {
 │            │
 │         ${num} │
 └────────────┘`;
+    }
   };
 
   return (
@@ -98,16 +345,16 @@ const App = () => {
   // Handle command input
   const handleCommandSubmit = (e) => {
     e.preventDefault();
-    if (commandInput.toLowerCase() === ':draw') {
+    if (commandInput.toLowerCase() === 'draw') {
       drawCards();
-    } else if (commandInput.toLowerCase().startsWith(':cards ')) {
+    } else if (commandInput.toLowerCase().startsWith('cards ')) {
       const num = parseInt(commandInput.split(' ')[1]);
       if (!isNaN(num) && num > 0 && num <= 10) {
         setNumCards(num);
       }
-    } else if (commandInput.toLowerCase() === ':help') {
+    } else if (commandInput.toLowerCase() === 'help') {
       setShowCommandHelp(!showCommandHelp);
-    } else if (commandInput.toLowerCase() === ':clear') {
+    } else if (commandInput.toLowerCase() === 'clear') {
       setHistory([]);
       setReading([]);
     }
@@ -180,12 +427,12 @@ const App = () => {
       )}
       
       <form className="cmd-line" onSubmit={handleCommandSubmit}>
-        <span className="cmd-prefix">:</span>
+        <span className="cmd-prefix">❯</span>
         <input 
           type="text" 
           value={commandInput} 
           onChange={(e) => setCommandInput(e.target.value)} 
-          placeholder="Type commands (e.g., :draw, :cards 5, :help)" 
+          placeholder="Type commands (e.g., draw, cards 5, help)" 
         />
         <span className="vim-cursor"></span>
       </form>
@@ -199,10 +446,10 @@ const App = () => {
         <div className="command-help">
           <h3>Commands</h3>
           <ul>
-            <li><span className="cmd">:draw</span> Draw new cards</li>
-            <li><span className="cmd">:cards n</span> Set number of cards</li>
-            <li><span className="cmd">:clear</span> Clear history</li>
-            <li><span className="cmd">:help</span> Toggle help</li>
+            <li><span className="cmd">draw</span> Draw new cards</li>
+            <li><span className="cmd">cards n</span> Set number of cards</li>
+            <li><span className="cmd">clear</span> Clear history</li>
+            <li><span className="cmd">help</span> Toggle help</li>
           </ul>
         </div>
       )}
