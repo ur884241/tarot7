@@ -50,7 +50,6 @@ const Card = ({ card, isReversed }) => {
       <div className="card-art">
         {getCardArt(card.id)}
       </div>
-      <div className="card-description">{card.description}</div>
       {isReversed && <div className="reversed-indicator">Reversed</div>}
     </div>
   );
@@ -63,6 +62,11 @@ const App = () => {
   const [history, setHistory] = useState([]);
   const [commandInput, setCommandInput] = useState('');
   const [showCommandHelp, setShowCommandHelp] = useState(true);
+  const [metrics, setMetrics] = useState({
+    totalReadings: 0,
+    majorArcanaDrawn: 0,
+    reversedPercentage: 0
+  });
 
   // Draw cards function
   const drawCards = () => {
@@ -81,6 +85,14 @@ const App = () => {
     }, ...history];
     
     setHistory(newHistory.slice(0, 5)); // Keep only last 5 readings
+    
+    // Update metrics
+    const reversedCount = selectedCards.filter(card => card.isReversed).length;
+    setMetrics({
+      totalReadings: metrics.totalReadings + 1,
+      majorArcanaDrawn: metrics.majorArcanaDrawn + numCards,
+      reversedPercentage: Math.round((metrics.reversedPercentage * metrics.totalReadings + (reversedCount / numCards * 100)) / (metrics.totalReadings + 1))
+    });
   };
 
   // Handle command input
@@ -95,6 +107,9 @@ const App = () => {
       }
     } else if (commandInput.toLowerCase() === ':help') {
       setShowCommandHelp(!showCommandHelp);
+    } else if (commandInput.toLowerCase() === ':clear') {
+      setHistory([]);
+      setReading([]);
     }
     setCommandInput('');
   };
@@ -103,6 +118,21 @@ const App = () => {
     <div className="container">
       <h1 className="title">Tarot de Marseille</h1>
       <p className="subtitle">A digital card reading experience</p>
+      
+      <div className="data-metrics">
+        <div className="metric-box">
+          <div className="metric-title">Readings</div>
+          <div className="metric-value">{metrics.totalReadings}</div>
+        </div>
+        <div className="metric-box">
+          <div className="metric-title">Cards Drawn</div>
+          <div className="metric-value">{metrics.majorArcanaDrawn}</div>
+        </div>
+        <div className="metric-box">
+          <div className="metric-title">Reversed %</div>
+          <div className="metric-value">{metrics.reversedPercentage}%</div>
+        </div>
+      </div>
       
       <div className="card-container">
         {reading.length > 0 ? (
@@ -130,7 +160,7 @@ const App = () => {
       
       {history.length > 0 && (
         <div className="reading-history">
-          <h2 className="title">Reading History</h2>
+          <h2>Reading History</h2>
           {history.map((entry, index) => (
             <div key={index} className="history-entry">
               <div className="history-timestamp">{entry.timestamp}</div>
@@ -167,10 +197,11 @@ const App = () => {
       
       {showCommandHelp && (
         <div className="command-help">
-          <h3>Available Commands</h3>
+          <h3>Commands</h3>
           <ul>
             <li><span className="cmd">:draw</span> Draw new cards</li>
             <li><span className="cmd">:cards n</span> Set number of cards</li>
+            <li><span className="cmd">:clear</span> Clear history</li>
             <li><span className="cmd">:help</span> Toggle help</li>
           </ul>
         </div>

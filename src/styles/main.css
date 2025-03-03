@@ -26,14 +26,12 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
-    padding: 0;
+    padding: 0 0 80px 0; /* Add padding at bottom for fixed bars */
     line-height: 1.5;
     letter-spacing: 0.03em;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 h1 {
@@ -41,16 +39,15 @@ h1 {
 }
 
 .container {
-    width: 90%;
-    max-width: 800px;
-    margin: 20px auto 60px;
-    text-align: center;
+    width: 95%;
+    max-width: 1200px;
+    margin: 20px auto 80px;
     position: relative;
 }
 
 .title {
     font-family: var(--font-main);
-    font-size: 28px;
+    font-size: 24px;
     color: var(--accent-color);
     margin: 15px 0;
     text-transform: uppercase;
@@ -58,6 +55,7 @@ h1 {
     font-weight: normal;
     position: relative;
     padding-bottom: 10px;
+    text-align: center;
 }
 
 .title::after {
@@ -77,35 +75,58 @@ h1 {
     margin-bottom: 30px;
     font-style: italic;
     opacity: 0.8;
+    text-align: center;
 }
 
 .card-container {
     display: flex;
     justify-content: center;
     gap: 15px;
-    flex-wrap: wrap;
-    margin: 30px 0;
+    overflow-x: auto;
+    padding: 20px 0;
+    margin: 20px 0;
     min-height: 250px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) var(--bg-color);
+}
+
+.card-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.card-container::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+.card-container::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+.card-container::-webkit-scrollbar-thumb:hover {
+    background: var(--highlight-color);
 }
 
 .card {
-    width: 150px;
-    height: 250px;
+    min-width: 140px;
+    height: 230px;
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
     padding: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
 }
 
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    z-index: 2;
 }
 
 .card.reversed {
@@ -124,6 +145,7 @@ h1 {
     color: var(--accent-color);
     text-transform: uppercase;
     letter-spacing: 1px;
+    text-align: center;
 }
 
 .card-art {
@@ -217,35 +239,32 @@ input[type="number"]:focus {
 }
 
 .reading-history {
-    border: 1px solid var(--border-color);
-    padding: 20px;
-    margin: 20px auto;
-    background-color: var(--card-bg);
-    text-align: left;
-    width: 90%;
-    max-width: 500px;
-    max-height: 200px;
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(37, 37, 32, 0.7);
+    backdrop-filter: blur(5px);
+    padding: 15px;
+    max-width: 250px;
+    max-height: 60vh;
     overflow-y: auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    position: relative;
+    z-index: 50;
+    border-left: 2px solid var(--highlight-color);
 }
 
-.reading-history::before {
-    content: 'Reading History';
-    position: absolute;
-    top: -8px;
-    left: 15px;
-    background-color: var(--card-bg);
-    padding: 0 8px;
-    font-size: 10px;
+.reading-history h2 {
     color: var(--highlight-color);
+    font-size: 14px;
+    margin-bottom: 10px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    font-weight: normal;
 }
 
 .history-entry {
-    border-bottom: 1px dotted var(--border-color);
-    padding: 12px 0;
+    border-bottom: 1px dotted rgba(92, 92, 79, 0.5);
+    padding: 10px 0;
 }
 
 .history-entry:last-child {
@@ -256,21 +275,20 @@ input[type="number"]:focus {
     color: var(--highlight-color);
     margin-bottom: 8px;
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .history-cards {
     display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .history-card {
-    background-color: var(--bg-color);
+    background-color: rgba(26, 26, 26, 0.5);
     padding: 4px 8px;
-    border: 1px solid var(--border-color);
-    font-size: 12px;
-    border-radius: 2px;
+    font-size: 11px;
+    border-left: 1px solid var(--border-color);
 }
 
 .history-card.reversed {
@@ -292,15 +310,17 @@ input[type="number"]:focus {
 }
 
 .cmd-line {
-    margin: 20px auto;
+    position: fixed;
+    bottom: 30px;
+    left: 0;
+    right: 0;
     display: flex;
     align-items: center;
-    border: 1px solid var(--border-color);
-    padding: 8px 12px;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 8px 16px;
     background-color: var(--command-bg);
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 100;
 }
 
 .cmd-prefix {
@@ -344,36 +364,70 @@ input[type="number"]:focus {
 .command-help {
     position: fixed;
     bottom: 30px;
-    left: 0;
     right: 0;
-    background-color: var(--status-bg);
-    border-top: 1px solid var(--border-color);
+    background-color: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(5px);
+    border-left: 1px solid var(--border-color);
     padding: 8px 16px;
-    text-align: center;
+    text-align: left;
     font-size: 12px;
     z-index: 90;
+    max-width: 200px;
 }
 
 .command-help h3 {
-    display: none;
+    color: var(--highlight-color);
+    font-size: 12px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .command-help ul {
     list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
 }
 
 .command-help li {
-    display: flex;
-    align-items: center;
+    margin-bottom: 6px;
 }
 
 .command-help .cmd {
     color: var(--highlight-color);
     font-family: var(--font-mono);
     margin-right: 8px;
+    display: inline-block;
+    min-width: 70px;
+}
+
+/* Data visualization elements */
+.data-metrics {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.metric-box {
+    background-color: rgba(37, 37, 32, 0.7);
+    border-left: 2px solid var(--highlight-color);
+    padding: 10px 15px;
+    flex: 1;
+    min-width: 150px;
+}
+
+.metric-title {
+    font-size: 12px;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.metric-value {
+    font-size: 18px;
+    color: var(--highlight-color);
+    font-family: var(--font-mono);
 }
 
 /* Scrollbar styling */
@@ -399,21 +453,25 @@ input[type="number"]:focus {
         width: 95%;
     }
     
-    .card {
-        width: 130px;
-        height: 220px;
+    .reading-history {
+        position: static;
+        transform: none;
+        max-width: 100%;
+        margin: 20px auto;
     }
     
-    .title {
-        font-size: 22px;
-    }
-    
-    .control-panel, .reading-history, .cmd-line {
-        width: 100%;
+    .command-help {
+        position: fixed;
+        bottom: 30px;
+        right: 0;
+        left: 0;
+        max-width: 100%;
+        text-align: center;
     }
     
     .command-help ul {
-        flex-direction: column;
-        gap: 5px;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
     }
 }
