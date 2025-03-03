@@ -53,6 +53,7 @@ const App = () => {
   const [numCards, setNumCards] = useState(3);
   const [history, setHistory] = useState([]);
   const [commandInput, setCommandInput] = useState('');
+  const [showCommandHelp, setShowCommandHelp] = useState(true);
 
   // Draw cards function
   const drawCards = () => {
@@ -83,6 +84,8 @@ const App = () => {
       if (!isNaN(num) && num > 0 && num <= 10) {
         setNumCards(num);
       }
+    } else if (commandInput.toLowerCase() === ':help') {
+      setShowCommandHelp(!showCommandHelp);
     }
     setCommandInput('');
   };
@@ -143,10 +146,21 @@ const App = () => {
           type="text" 
           value={commandInput} 
           onChange={(e) => setCommandInput(e.target.value)} 
-          placeholder="Type commands (e.g., :draw, :cards 5)" 
+          placeholder="Type commands (e.g., :draw, :cards 5, :help)" 
         />
         <span className="vim-cursor"></span>
       </form>
+      
+      {showCommandHelp && (
+        <div className="command-help">
+          <h3>Available Commands</h3>
+          <ul>
+            <li><span className="cmd">:draw</span> Draw new cards</li>
+            <li><span className="cmd">:cards n</span> Set number of cards</li>
+            <li><span className="cmd">:help</span> Toggle help</li>
+          </ul>
+        </div>
+      )}
       
       <div className="status-line">
         <span className="status-mode">NORMAL</span>
