@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Header from './components/Header';
 import ControlPanel from './components/ControlPanel';
 import CardContainer from './components/CardContainer';
@@ -9,59 +9,58 @@ import majorArcana from './data/majorArcana';
 import { drawCards, calculateTotalCards } from './utils/tarotUtils';
 
 const App = () => {
-  // State management
-  const [currentReading, setCurrentReading] = useState([]);
-  const [readingHistory, setReadingHistory] = useState([]);
-  const [showHistory, setShowHistory] = useState(false);
+  const [rows, setRows] = useState([]); // Stores all sorted rows
+  const [currentRow, setCurrentRow] = useState([]); // Current row being sorted
   const [commandText, setCommandText] = useState('');
   const [mode, setMode] = useState('NORMAL');
 
-  // Handle drawing new cards
+  // Handle drawing new cards for a row
   const handleDrawCards = (count) => {
     try {
       const drawnCards = drawCards(majorArcana, count);
-      setCurrentReading(drawnCards);
-      
-      // Add to history
-      const historyEntry = {
-        id: readingHistory.length + 1,
-        timestamp: new Date(),
-        cards: drawnCards
-      };
-      
-      setReadingHistory([...readingHistory, historyEntry]);
+      setCurrentRow(drawnCards);
       setCommandText(`draw ${count}`);
     } catch (error) {
       alert(error.message);
     }
   };
 
-  // Toggle history view
-  const toggleHistory = () => {
-    setShowHistory(!showHistory);
-    setCommandText(showHistory ? 'normal' : 'history');
+  // Finalize the current row and add it to the history
+  const finalizeRow = () => {
+    if (currentRow.length === 0) {
+      alert('No cards drawn yet.');
+      return;
+    }
+
+    const newRow = {
+      id: rows.length + 1,
+      timestamp: new Date(),
+      cards: currentRow,
+    };
+
+    setRows([...rows, newRow]);
+    setCurrentRow([]); // Clear the current row
+    setCommandText('row finalized');
   };
 
-  // Calculate total cards drawn
-  const totalCards = calculateTotalCards(readingHistory);
-  
+  // Calculate total cards drawn across all rows
+  const totalCards = calculateTotalCards(rows);
+
   return (
     <div className="container">
       <Header />
       
       <ControlPanel 
         onDrawCards={handleDrawCards} 
-        onToggleHistory={toggleHistory} 
+        onFinalizeRow={finalizeRow} 
       />
       
-      {currentReading.length > 0 ? (
-        <CardContainer cards={currentReading} title="Current Reading" />
-      ) : (
-        <p>No cards drawn yet.</p>
+      {currentRow.length > 0 && (
+        <CardContainer cards={currentRow} title="Current Row" />
       )}
       
-      {showHistory && (
-        <HistoryView history={readingHistory} />
+      {rows.length > 0 && (
+        <HistoryView history={rows} />
       )}
       
       <CommandLine text={commandText} />
