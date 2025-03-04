@@ -1,305 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import './styles/main.css';
+import Card from './components/Card';
 
-// Tarot card data
+// Tarot card data with French names
 const tarotCards = [
-  { id: 0, name: "The Fool", description: "New beginnings, spontaneity, faith" },
-  { id: 1, name: "The Magician", description: "Manifestation, resourcefulness, power" },
-  { id: 2, name: "High Priestess", description: "Intuition, unconscious, inner voice" },
-  { id: 3, name: "The Empress", description: "Femininity, beauty, nature, abundance" },
-  { id: 4, name: "The Emperor", description: "Authority, structure, control, leadership" },
-  { id: 5, name: "Hierophant", description: "Tradition, conformity, morality, ethics" },
-  { id: 6, name: "The Lovers", description: "Love, harmony, relationships, values alignment" },
-  { id: 7, name: "The Chariot", description: "Control, willpower, success, determination" },
-  { id: 8, name: "Strength", description: "Courage, patience, control, compassion" },
-  { id: 9, name: "The Hermit", description: "Soul-searching, introspection, guidance" },
-  { id: 10, name: "Wheel of Fortune", description: "Change, cycles, fate, turning point" },
-  { id: 11, name: "Justice", description: "Fairness, truth, law, cause and effect" },
-  { id: 12, name: "Hanged Man", description: "Surrender, letting go, new perspective" },
-  { id: 13, name: "Death", description: "Endings, change, transformation, transition" },
-  { id: 14, name: "Temperance", description: "Balance, moderation, patience, purpose" },
-  { id: 15, name: "The Devil", description: "Shadow self, attachment, addiction, restriction" },
-  { id: 16, name: "The Tower", description: "Sudden change, revelation, disaster, upheaval" },
-  { id: 17, name: "The Star", description: "Hope, faith, purpose, renewal, spirituality" },
-  { id: 18, name: "The Moon", description: "Illusion, fear, anxiety, subconscious, intuition" },
-  { id: 19, name: "The Sun", description: "Positivity, fun, warmth, success, vitality" },
-  { id: 20, name: "Judgment", description: "Rebirth, inner calling, absolution" },
-  { id: 21, name: "The World", description: "Completion, accomplishment, travel" }
+  { id: 0, name: "Le Mat", description: "New beginnings" },
+  { id: 1, name: "Le Bateleur", description: "Manifestation" },
+  { id: 2, name: "La Papesse", description: "Intuition" },
+  { id: 3, name: "L'Impératrice", description: "Abundance" },
+  { id: 4, name: "L'Empereur", description: "Authority" },
+  { id: 5, name: "Le Pape", description: "Tradition" },
+  { id: 6, name: "L'Amoureux", description: "Love" },
+  { id: 7, name: "Le Chariot", description: "Control" },
+  { id: 8, name: "La Force", description: "Courage" },
+  { id: 9, name: "L'Hermite", description: "Wisdom" },
+  { id: 10, name: "La Roue", description: "Change" },
+  { id: 11, name: "La Justice", description: "Balance" },
+  { id: 12, name: "Le Pendu", description: "Sacrifice" },
+  { id: 13, name: "La Mort", description: "Transformation" },
+  { id: 14, name: "Tempérance", description: "Moderation" },
+  { id: 15, name: "Le Diable", description: "Bondage" },
+  { id: 16, name: "La Maison Dieu", description: "Destruction" },
+  { id: 17, name: "L'Étoile", description: "Hope" },
+  { id: 18, name: "La Lune", description: "Illusion" },
+  { id: 19, name: "Le Soleil", description: "Joy" },
+  { id: 20, name: "Le Jugement", description: "Awakening" },
+  { id: 21, name: "Le Monde", description: "Completion" }
 ];
-
-// Card component with uniform ASCII art
-const Card = ({ card, isReversed }) => {
-  // Function to generate uniform ASCII art based on card ID
-  const getCardArt = (id) => {
-    const num = id.toString().padStart(2, '0');
-    
-    // Custom art for each card with consistent dimensions
-    switch(id) {
-      case 0: // The Fool
-        return `┌──────────┐
-│${num}        │
-│    ☼     │
-│   \\o/    │
-│    |     │
-│   / \\    │
-│  ~~~~~   │
-│        ${num}│
-└──────────┘`;
-      
-      case 1: // The Magician
-        return `┌──────────┐
-│${num}        │
-│    ∞     │
-│   _|_    │
-│  /   \\   │
-│  \\___/   │
-│   ♠♥♦♣   │
-│        ${num}│
-└──────────┘`;
-      
-      case 2: // High Priestess
-        return `┌──────────┐
-│${num}        │
-│    ☽☽    │
-│   ┌─┐    │
-│   │B│    │
-│   └─┘    │
-│   ≈≈≈    │
-│        ${num}│
-└──────────┘`;
-      
-      case 3: // The Empress
-        return `┌──────────┐
-│${num}        │
-│    ♀     │
-│   \\|/    │
-│  ⚘ | ⚘   │
-│   /|\\    │
-│   ♥♥♥    │
-│        ${num}│
-└──────────┘`;
-      
-      case 4: // The Emperor
-        return `┌──────────┐
-│${num}        │
-│    ♂     │
-│   ┌─┐    │
-│   │♦│    │
-│   └─┘    │
-│   /|\\    │
-│        ${num}│
-└──────────┘`;
-      
-      case 5: // Hierophant
-        return `┌──────────┐
-│${num}        │
-│    †     │
-│   ┌┬┐    │
-│   ││     │
-│   ┴┴     │
-│   ◎◎     │
-│        ${num}│
-└──────────┘`;
-      
-      case 6: // The Lovers
-        return `┌──────────┐
-│${num}        │
-│    ♡     │
-│  ○   ○   │
-│   \\ /    │
-│    V     │
-│   / \\    │
-│        ${num}│
-└──────────┘`;
-      
-      case 7: // The Chariot
-        return `┌──────────┐
-│${num}        │
-│   ☆☆☆    │
-│  ┌───┐   │
-│  │ ▲ │   │
-│  └───┘   │
-│  ◄►◄►    │
-│        ${num}│
-└──────────┘`;
-      
-      case 8: // Strength
-        return `┌──────────┐
-│${num}        │
-│    ∞     │
-│   ┌─┐    │
-│   │8│    │
-│   └─┘    │
-│   ^ω^    │
-│        ${num}│
-└──────────┘`;
-      
-      case 9: // The Hermit
-        return `┌──────────┐
-│${num}        │
-│    *     │
-│    Λ     │
-│   /|\\    │
-│  / | \\   │
-│    |     │
-│        ${num}│
-└──────────┘`;
-      
-      case 10: // Wheel of Fortune
-        return `┌──────────┐
-│${num}        │
-│    ⊛     │
-│   ╭─╮    │
-│   │⊕│    │
-│   ╰─╯    │
-│   ⟳⟲     │
-│        ${num}│
-└──────────┘`;
-      
-      case 11: // Justice
-        return `┌──────────┐
-│${num}        │
-│    ⚖     │
-│   ┌─┐    │
-│   │≡│    │
-│   └─┘    │
-│   ◇◇◇    │
-│        ${num}│
-└──────────┘`;
-      
-      case 12: // Hanged Man
-        return `┌──────────┐
-│${num}        │
-│    ⊥     │
-│    Λ     │
-│   /|\\    │
-│    |     │
-│   / \\    │
-│        ${num}│
-└──────────┘`;
-      
-      case 13: // Death
-        return `┌──────────┐
-│${num}        │
-│    ☠     │
-│   ┌─┐    │
-│   │†│    │
-│   └─┘    │
-│   ⟿⟿⟿    │
-│        ${num}│
-└──────────┘`;
-      
-      case 14: // Temperance
-        return `┌──────────┐
-│${num}        │
-│    ⚱     │
-│   ≈≈≈    │
-│   \\│/    │
-│    │     │
-│   / \\    │
-│        ${num}│
-└──────────┘`;
-      
-      case 15: // The Devil
-        return `┌──────────┐
-│${num}        │
-│    ⛧     │
-│   ┌─┐    │
-│   │⚶│    │
-│   └─┘    │
-│   ⧗⧗⧗    │
-│        ${num}│
-└──────────┘`;
-      
-      case 16: // The Tower
-        return `┌──────────┐
-│${num}        │
-│    ⚡     │
-│   ┌─┐    │
-│   │▲│    │
-│   └─┘    │
-│   ≡≡≡    │
-│        ${num}│
-└──────────┘`;
-      
-      case 17: // The Star
-        return `┌──────────┐
-│${num}        │
-│    ★     │
-│  * * *   │
-│   \\│/    │
-│    │     │
-│   / \\    │
-│        ${num}│
-└──────────┘`;
-      
-      case 18: // The Moon
-        return `┌──────────┐
-│${num}        │
-│    ☽     │
-│   ┌─┐    │
-│   │◑│    │
-│   └─┘    │
-│   ≈≈≈    │
-│        ${num}│
-└──────────┘`;
-      
-      case 19: // The Sun
-        return `┌──────────┐
-│${num}        │
-│    ☀     │
-│   \\│/    │
-│  - O -   │
-│   /|\\    │
-│   ♨♨♨    │
-│        ${num}│
-└──────────┘`;
-      
-      case 20: // Judgment
-        return `┌──────────┐
-│${num}        │
-│    ♫     │
-│   \\│/    │
-│    │     │
-│   ┌┴┐    │
-│   ┴┬┴    │
-│        ${num}│
-└──────────┘`;
-      
-      case 21: // The World
-        return `┌──────────┐
-│${num}        │
-│    ⊕     │
-│   \\│/    │
-│  - O -   │
-│   /|\\    │
-│   ◇◇◇    │
-│        ${num}│
-└──────────┘`;
-      
-      default:
-        return `┌──────────┐
-│${num}        │
-│          │
-│  ╭────╮  │
-│  │    │  │
-│  │    │  │
-│  ╰────╯  │
-│        ${num}│
-└──────────┘`;
-    }
-  };
-
-  return (
-    <div className={`card ${isReversed ? 'reversed' : ''}`}>
-      <div className="card-title">{card.name}</div>
-      <div className="card-art">
-        {getCardArt(card.id)}
-      </div>
-      {isReversed && <div className="reversed-indicator">Rev</div>}
-    </div>
-  );
-};
 
 // Main App component
 const App = () => {
