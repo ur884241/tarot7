@@ -1,0 +1,22 @@
+{
+    "name": "tarot-marseille",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "A Tarot de Marseille card reading app with NeoVim aesthetic",
+    "main": "src/index.js",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "vercel-build": "vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "again": "^0.0.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-react": "^4.3.4",
+        "vite": "^4.5.9"
+    }
+}
