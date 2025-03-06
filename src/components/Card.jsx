@@ -7,6 +7,7 @@ import './Card.css';
 const Card = ({ card, isReversed }) => {
   const cardRef = useRef(null);
   const [showPreview, setShowPreview] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
   const previewTimeoutRef = useRef(null);
   const { handleMouseMove, handleMouseLeave } = useHolographicEffect(cardRef);
   const { startGlitchLoop } = useGlitchEffect(cardRef);
@@ -46,8 +47,17 @@ const Card = ({ card, isReversed }) => {
       clearTimeout(previewTimeoutRef.current);
     }
     
-    // Hide the preview
-    setShowPreview(false);
+    // Start fade-out animation
+    if (showPreview) {
+      setFadeOut(true);
+      // Hide the preview after animation completes
+      setTimeout(() => {
+        setShowPreview(false);
+        setFadeOut(false);
+      }, 150);
+    } else {
+      setShowPreview(false);
+    }
   };
 
   const cardNumber = card.id.toString().padStart(2, '0');
@@ -56,7 +66,7 @@ const Card = ({ card, isReversed }) => {
   return (
     <>
       <div 
-        className="card" 
+        className={`card ${isReversed ? 'reversed' : ''}`}
         ref={cardRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeaveWithDelay}
@@ -66,7 +76,7 @@ const Card = ({ card, isReversed }) => {
           <img 
             src={imagePath}
             alt={card.name}
-            style={{ transform: isReversed ? 'rotate(180deg)' : 'none' }}
+            className={isReversed ? 'reversed' : ''}
             onError={(e) => {
               console.error(`Failed to load image for ${card.name}`);
               console.error(`ID: ${card.id}`);
@@ -74,16 +84,16 @@ const Card = ({ card, isReversed }) => {
             }}
           />
         </div>
-        {isReversed && <div className="reversed-indicator">Rev</div>}
       </div>
       {showPreview && (
         <CardPreview 
           card={card} 
-          isReversed={isReversed} 
+          isReversed={isReversed}
+          className={fadeOut ? 'fade-out' : ''}
         />
       )}
     </>
   );
 };
 
-export default Card; 
+export default Card;

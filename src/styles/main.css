@@ -131,12 +131,18 @@ h1 {
 }
 
 .card.reversed {
-    transform: rotate(180deg);
+    /* Remove rotation */
+    transform: none;
+    /* Keep red border */
     border-color: var(--reversed-color);
+    /* Standard shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .card.reversed:hover {
-    transform: rotate(180deg) translateY(-5px);
+    /* Standard hover effect without rotation */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .card-image {
@@ -183,6 +189,7 @@ h1 {
     right: 4px;
     font-size: 10px;
     color: var(--reversed-color);
+    font-weight: bold;
 }
 
 .control-panel {
@@ -239,10 +246,10 @@ h1 {
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    background-color: rgba(37, 37, 32, 0.7);
+    background-color: rgba(37, 37, 32, 0.8);
     backdrop-filter: blur(5px);
-    padding: 14px; /* Reduced padding */
-    max-width: 250px; /* Reduced width */
+    padding: 14px;
+    max-width: 250px;
     max-height: 80vh;
     overflow-y: auto;
     z-index: 50;
@@ -259,16 +266,19 @@ h1 {
 }
 
 .history-entry {
-    margin-bottom: 14px; /* Reduced margin */
-    padding-bottom: 9px; /* Reduced padding */
+    margin-bottom: 14px;
+    padding-bottom: 9px;
     border-bottom: 1px solid rgba(92, 92, 79, 0.3);
+    background-color: rgba(26, 26, 26, 0.4);
+    border-radius: 3px;
+    padding: 10px;
 }
 
 .history-timestamp {
-    font-size: 10px; /* Reduced font size */
+    font-size: 10px;
     color: var(--text-color);
     opacity: 0.7;
-    margin-bottom: 5px; /* Reduced margin */
+    margin-bottom: 3px;
 }
 
 .history-cards {
@@ -337,42 +347,117 @@ h1 {
     font-weight: bold;
 }
 
+/* Improved reading history styling */
+.reading-history {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    background-color: rgba(37, 37, 32, 0.8);
+    backdrop-filter: blur(5px);
+    padding: 14px;
+    max-width: 250px;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 50;
+    border-right: 1px solid var(--border-color);
+}
+
+/* Better history entry styling */
+.history-entry {
+    margin-bottom: 14px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid rgba(92, 92, 79, 0.3);
+    background-color: rgba(26, 26, 26, 0.4);
+    border-radius: 3px;
+    padding: 10px;
+}
+
+/* Improved history header with ID */
+.history-header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(92, 92, 79, 0.2);
+    padding-bottom: 5px;
+}
+
+.history-id {
+    font-size: 10px;
+    color: var(--highlight-color);
+    font-family: var(--font-mono);
+    font-weight: bold;
+}
+
+/* Improved history save button */
+.history-save-btn {
+    background-color: rgba(26, 26, 26, 0.6);
+    border: 1px solid var(--border-color);
+    color: var(--accent-color);
+    padding: 3px 8px;
+    font-size: 10px;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    text-align: center;
+    border-radius: 2px;
+}
+
+.history-save-btn:hover {
+    background-color: var(--hover-color);
+    border-color: var(--highlight-color);
+    color: var(--highlight-color);
+}
+
+/* Adjust command help position to be higher above the vim bar */
 .command-help {
     position: fixed;
-    bottom: 56px; /* Adjusted position */
-    right: 0;
-    background-color: rgba(10, 10, 10, 0.8);
-    backdrop-filter: blur(5px);
-    border-left: 1px solid var(--border-color);
-    padding: 7px 14px; /* Reduced padding */
-    text-align: left;
-    font-size: 11px; /* Reduced font size */
-    z-index: 90;
-    max-width: 185px; /* Reduced width */
+    bottom: 80px; /* Increased from 60px to move it higher */
+    right: 20px;
+    background-color: rgba(26, 26, 26, 0.95);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 10px 15px;
+    color: var(--text-color);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    z-index: 1000;
+    max-width: 400px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .command-help h3 {
     color: var(--highlight-color);
-    font-size: 11px; /* Reduced font size */
-    margin-bottom: 7px; /* Reduced margin */
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    margin-top: 0;
+    margin-bottom: 8px; /* Reduced margin */
+    font-size: 14px; /* Smaller heading */
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 6px;
 }
 
 .command-help ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px 15px; /* Reduced gap */
 }
 
 .command-help li {
-    margin-bottom: 5px; /* Reduced margin */
+    margin-bottom: 6px; /* Reduced margin */
+    display: flex;
+    align-items: flex-start;
 }
 
 .command-help .cmd {
     color: var(--highlight-color);
     font-family: var(--font-mono);
-    margin-right: 7px; /* Reduced margin */
+    margin-right: 8px;
     display: inline-block;
-    min-width: 65px; /* Reduced width */
+    min-width: 90px; /* Reduced width */
+    font-weight: bold;
 }
 
 /* Data visualization elements */
@@ -475,18 +560,13 @@ h1 {
     }
     
     .command-help {
-        position: fixed;
-        bottom: 56px; /* Adjusted position */
-        right: 0;
-        left: 0;
-        max-width: 100%;
-        text-align: center;
+        left: 20px;
+        right: 20px;
+        max-width: none;
     }
     
     .command-help ul {
-        display: flex;
-        justify-content: center;
-        gap: 14px; /* Reduced gap */
+        grid-template-columns: 1fr; /* Single column on mobile */
     }
 }
 
@@ -590,7 +670,7 @@ h1 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* Fix for card preview positioning and z-index */
+/* Add smooth transition for card preview */
 .card-preview {
   position: fixed;
   top: 50%;
@@ -606,6 +686,27 @@ h1 {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(8px);
   pointer-events: none; /* Prevent the preview from capturing mouse events */
+  
+  /* Add smooth transition */
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+  animation: fadeIn 0.15s forwards;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Fade-out animation for when preview disappears */
+.card-preview.fade-out {
+  animation: fadeOut 0.15s forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 /* Make sure ALL preview images are displayed in normal orientation */
@@ -619,4 +720,154 @@ h1 {
   font-size: 9px;
   font-style: italic;
   opacity: 0.8;
+}
+
+/* Add red border to reversed card previews */
+.card-preview.reversed {
+  border-color: var(--reversed-color);
+}
+
+/* Make the preview image container match the card styling */
+.card-preview-image {
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.card-preview.reversed .card-preview-image {
+  border-color: var(--reversed-color);
+}
+
+/* Ensure the preview image fills its container */
+.card-preview img {
+  transform: none !important;
+  width: 100%;
+  display: block;
+}
+
+/* Status message styling */
+.status-message {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(26, 26, 26, 0.95);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 10px 15px;
+  color: var(--text-color);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 200px;
+  max-width: 80%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 10px;
+  padding: 0 5px;
+}
+
+.close-btn:hover {
+  color: var(--highlight-color);
+}
+
+/* Saved readings panel */
+.saved-readings {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(26, 26, 26, 0.98);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 15px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  z-index: 1500;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.saved-readings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.saved-readings-header h3 {
+  margin: 0;
+  color: var(--highlight-color);
+}
+
+.saved-readings-list {
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.saved-reading-item {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.saved-reading-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.saved-reading-name {
+  font-weight: bold;
+  color: var(--text-color);
+  margin-bottom: 5px;
+}
+
+.saved-reading-date {
+  font-size: 12px;
+  color: var(--accent-color);
+  margin-bottom: 5px;
+}
+
+.saved-reading-cards {
+  font-size: 12px;
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
+.load-btn {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--accent-color);
+  padding: 5px 10px;
+  font-family: var(--font-main);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.load-btn:hover {
+  background-color: var(--hover-color);
+  border-color: var(--highlight-color);
+  color: var(--highlight-color);
 }

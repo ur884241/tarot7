@@ -156,6 +156,8 @@ const App = () => {
     elementalBalance: "Air",
     numerologicalSum: 0
   });
+  const [statusMessage, setStatusMessage] = useState('');
+  const [showSavedReadings, setShowSavedReadings] = useState(false);
 
   // Calculate occult metrics
   useEffect(() => {
@@ -194,8 +196,12 @@ const App = () => {
     
     setReading(selectedCards);
     
-    // Add to history
+    // Generate a unique ID for this reading
+    const readingId = Date.now();
+    
+    // Add to history with ID
     const newHistory = [{
+      id: readingId,
       timestamp: new Date().toLocaleString(),
       cards: selectedCards
     }, ...history];
@@ -209,6 +215,9 @@ const App = () => {
       majorArcanaDrawn: metrics.majorArcanaDrawn + numCards,
       reversedPercentage: Math.round((metrics.reversedPercentage * metrics.totalReadings + (reversedCount / numCards * 100)) / (metrics.totalReadings + 1))
     });
+    
+    // Show the ID in a status message
+    setStatusMessage(`Reading generated with ID: ${readingId}`);
   };
 
   // Handle command input in a more NeoVim-like way
@@ -247,7 +256,19 @@ const App = () => {
         majorArcanaDrawn: 0,
         reversedPercentage: 0
       });
+      setStatusMessage('History cleared');
     } 
+    else if (cleanCmd === 'clear all') {
+      setHistory([]);
+      localStorage.removeItem('tarotSavedReadings');
+      setMetrics({
+        totalReadings: 0,
+        majorArcanaDrawn: 0,
+        reversedPercentage: 0
+      });
+      setStatusMessage('All history and saved readings cleared');
+      setShowSavedReadings(false);
+    }
     else if (cleanCmd === 'spread celtic') {
       // Set spread type to Celtic Cross
       setSpreadType('celtic cross');
@@ -263,6 +284,49 @@ const App = () => {
     else if (cleanCmd === 'spread default') {
       // Reset to default spread
       setSpreadType('default');
+    }
+    else if (cleanCmd === 'save') {
+      if (reading.length > 0) {
+        const readingId = saveReading(reading);
+        setStatusMessage(`Reading saved with ID: ${readingId}`);
+      } else {
+        setStatusMessage('No cards to save');
+      }
+    }
+    else if (cleanCmd.startsWith('save ')) {
+      if (reading.length > 0) {
+        const name = cleanCmd.substring(5).trim();
+        const readingId = saveReading(reading, name);
+        setStatusMessage(`Reading "${name}" saved with ID: ${readingId}`);
+      } else {
+        setStatusMessage('No cards to save');
+      }
+    }
+    else if (cleanCmd.startsWith('load ')) {
+      const loadParam = cleanCmd.substring(5).trim();
+      
+      // Check if the parameter is a number (ID) or a name
+      if (/^\d+$/.test(loadParam)) {
+        // It's a number, load by ID
+        loadSavedReading(loadParam);
+      } else {
+        // It's a name, load by name
+        loadSavedReadingByName(loadParam);
+      }
+    }
+    else if (cleanCmd === 'list') {
+      setShowSavedReadings(!showSavedReadings);
+    }
+    else if (cleanCmd.startsWith('save history ')) {
+      const params = cleanCmd.substring(13).trim().split(' ');
+      const historyId = parseInt(params[0]);
+      const name = params.slice(1).join(' ');
+      
+      if (!isNaN(historyId)) {
+        saveHistoryReading(historyId, name || null);
+      } else {
+        setStatusMessage('Please provide a valid history ID');
+      }
     }
     
     setCommandInput('');
@@ -324,6 +388,120 @@ const App = () => {
         </div>
       </div>
     );
+  };
+
+  const saveReading = (reading, name = null) => {
+    // Get existing saved readings or initialize empty array
+    const savedReadings = JSON.parse(localStorage.getItem('tarotSavedReadings') || '[]');
+    
+    // Create a new reading object with metadata
+    const newSavedReading = {
+      id: Date.now(), // Unique ID based on timestamp
+      name: name || `Reading ${savedReadings.length + 1}`,
+      date: new Date().toISOString(),
+      cards: reading.map(card => ({
+        id: card.id,
+        name: card.name,
+        isReversed: card.isReversed
+      })),
+      spreadType: spreadType
+    };
+    
+    // Add to saved readings
+    savedReadings.push(newSavedReading);
+    
+    // Save back to localStorage
+    localStorage.setItem('tarotSavedReadings', JSON.stringify(savedReadings));
+    
+    return newSavedReading.id; // Return the ID for reference
+  };
+
+  const loadSavedReading = (id) => {
+    const savedReadings = JSON.parse(localStorage.getItem('tarotSavedReadings') || '[]');
+    const savedReading = savedReadings.find(reading => reading.id === parseInt(id));
+    
+    if (savedReading) {
+      // Reconstruct full card objects from saved data
+      const loadedCards = savedReading.cards.map(savedCard => {
+        const fullCard = tarotCards.find(card => card.id === savedCard.id);
+        return {
+          ...fullCard,
+          isReversed: savedCard.isReversed
+        };
+      });
+      
+      // Set the current reading to the loaded one
+      setReading(loadedCards);
+      setSpreadType(savedReading.spreadType);
+      setNumCards(loadedCards.length);
+      setStatusMessage(`Loaded reading: ${savedReading.name}`);
+    } else {
+      setStatusMessage(`No saved reading found with ID: ${id}`);
+    }
+  };
+
+  // Add this function to load a reading by name
+  const loadSavedReadingByName = (name) => {
+    const savedReadings = JSON.parse(localStorage.getItem('tarotSavedReadings') || '[]');
+    // Find the reading with the matching name (case insensitive)
+    const savedReading = savedReadings.find(reading => 
+      reading.name.toLowerCase() === name.toLowerCase()
+    );
+    
+    if (savedReading) {
+      // Reconstruct full card objects from saved data
+      const loadedCards = savedReading.cards.map(savedCard => {
+        const fullCard = tarotCards.find(card => card.id === savedCard.id);
+        return {
+          ...fullCard,
+          isReversed: savedCard.isReversed
+        };
+      });
+      
+      // Set the current reading to the loaded one
+      setReading(loadedCards);
+      setSpreadType(savedReading.spreadType);
+      setNumCards(loadedCards.length);
+      setStatusMessage(`Loaded reading: ${savedReading.name}`);
+    } else {
+      setStatusMessage(`No saved reading found with name: ${name}`);
+    }
+  };
+
+  // Add a function to save a reading from history
+  const saveHistoryReading = (historyId, name = null) => {
+    const historyEntry = history.find(entry => entry.id === historyId);
+    
+    if (historyEntry) {
+      // Get existing saved readings
+      const savedReadings = JSON.parse(localStorage.getItem('tarotSavedReadings') || '[]');
+      
+      // Create a new saved reading from history
+      const newSavedReading = {
+        id: Date.now(), // New unique ID for the saved reading
+        name: name || `History Reading ${savedReadings.length + 1}`,
+        date: new Date().toISOString(),
+        originalDate: historyEntry.timestamp,
+        cards: historyEntry.cards.map(card => ({
+          id: card.id,
+          name: card.name,
+          isReversed: card.isReversed
+        })),
+        spreadType: 'default' // History readings are always default spread
+      };
+      
+      // Add to saved readings
+      savedReadings.push(newSavedReading);
+      
+      // Save back to localStorage
+      localStorage.setItem('tarotSavedReadings', JSON.stringify(savedReadings));
+      
+      setStatusMessage(`History reading saved as "${newSavedReading.name}"`);
+      return newSavedReading.id;
+    } else {
+      setStatusMessage(`No history reading found with ID: ${historyId}`);
+      return null;
+    }
   };
 
   return (
@@ -394,7 +572,10 @@ const App = () => {
           <h2>Reading History</h2>
           {history.map((entry, index) => (
             <div key={index} className="history-entry">
-              <div className="history-timestamp">{entry.timestamp}</div>
+              <div className="history-header">
+                <div className="history-timestamp">{entry.timestamp}</div>
+                <div className="history-id">ID: {entry.id}</div>
+              </div>
               <div className="history-cards">
                 {entry.cards.map((card, cardIndex) => (
                   <span 
@@ -405,6 +586,12 @@ const App = () => {
                   </span>
                 ))}
               </div>
+              <button 
+                className="history-save-btn"
+                onClick={() => saveHistoryReading(entry.id)}
+              >
+                Save
+              </button>
             </div>
           ))}
         </div>
@@ -428,15 +615,63 @@ const App = () => {
       
       {showCommandHelp && (
         <div className="command-help">
-          <h3>Commands</h3>
+          <h3>Tarot Commands</h3>
           <ul>
             <li><span className="cmd">:draw</span> Draw new cards</li>
             <li><span className="cmd">:set cards n</span> Set number of cards</li>
             <li><span className="cmd">:clear</span> Clear history</li>
+            <li><span className="cmd">:clear all</span> Clear all data</li>
             <li><span className="cmd">:help</span> Toggle help</li>
-            <li><span className="cmd">:spread celtic</span> Celtic Cross layout</li>
+            <li><span className="cmd">:spread celtic</span> Celtic Cross</li>
             <li><span className="cmd">:spread default</span> Default layout</li>
+            <li><span className="cmd">:save</span> Save reading</li>
+            <li><span className="cmd">:save name</span> Save with name</li>
+            <li><span className="cmd">:save history id</span> Save from history</li>
+            <li><span className="cmd">:load id</span> Load by ID</li>
+            <li><span className="cmd">:load name</span> Load by name</li>
+            <li><span className="cmd">:list</span> List saved</li>
           </ul>
+        </div>
+      )}
+      
+      {statusMessage && (
+        <div className="status-message">
+          {statusMessage}
+          <button className="close-btn" onClick={() => setStatusMessage('')}>×</button>
+        </div>
+      )}
+      
+      {showSavedReadings && (
+        <div className="saved-readings">
+          <div className="saved-readings-header">
+            <h3>Saved Readings</h3>
+            <button className="close-btn" onClick={() => setShowSavedReadings(false)}>×</button>
+          </div>
+          <div className="saved-readings-list">
+            {JSON.parse(localStorage.getItem('tarotSavedReadings') || '[]').length > 0 ? (
+              JSON.parse(localStorage.getItem('tarotSavedReadings') || '[]').map(reading => (
+                <div key={reading.id} className="saved-reading-item">
+                  <div className="saved-reading-info">
+                    <div className="saved-reading-name">{reading.name}</div>
+                    <div className="saved-reading-date">{new Date(reading.date).toLocaleString()}</div>
+                    <div className="saved-reading-cards">
+                      {reading.cards.length} cards • {reading.spreadType}
+                    </div>
+                  </div>
+                  <div className="saved-reading-actions">
+                    <button 
+                      onClick={() => loadSavedReading(reading.id)}
+                      className="load-btn"
+                    >
+                      Load
+                    </button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No saved readings found</p>
+            )}
+          </div>
         </div>
       )}
     </div>
