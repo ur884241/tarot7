@@ -615,7 +615,15 @@ const App = () => {
       
       {showCommandHelp && (
         <div className="command-help">
-          <h3>Tarot Commands</h3>
+          <div className="command-help-header">
+            <h3>Tarot Commands</h3>
+            <button 
+              className="command-help-close" 
+              onClick={() => setShowCommandHelp(false)}
+            >
+              ×
+            </button>
+          </div>
           <ul>
             <li><span className="cmd">:draw</span> Draw new cards</li>
             <li><span className="cmd">:set cards n</span> Set number of cards</li>

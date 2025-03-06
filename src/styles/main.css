@@ -413,7 +413,7 @@ h1 {
 /* Adjust command help position to be higher above the vim bar */
 .command-help {
     position: fixed;
-    bottom: 80px; /* Increased from 60px to move it higher */
+    bottom: 80px; /* Keep it higher above the vim bar */
     right: 20px;
     background-color: rgba(26, 26, 26, 0.95);
     border: 1px solid var(--border-color);
@@ -427,13 +427,33 @@ h1 {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-.command-help h3 {
-    color: var(--highlight-color);
-    margin-top: 0;
-    margin-bottom: 8px; /* Reduced margin */
-    font-size: 14px; /* Smaller heading */
+.command-help-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 6px;
+}
+
+.command-help h3 {
+    color: var(--highlight-color);
+    margin: 0;
+    font-size: 14px;
+}
+
+.command-help-close {
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0 5px;
+    line-height: 1;
+}
+
+.command-help-close:hover {
+    color: var(--highlight-color);
 }
 
 .command-help ul {
@@ -442,11 +462,11 @@ h1 {
     margin: 0;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 6px 15px; /* Reduced gap */
+    gap: 6px 15px;
 }
 
 .command-help li {
-    margin-bottom: 6px; /* Reduced margin */
+    margin-bottom: 6px;
     display: flex;
     align-items: flex-start;
 }
@@ -456,7 +476,7 @@ h1 {
     font-family: var(--font-mono);
     margin-right: 8px;
     display: inline-block;
-    min-width: 90px; /* Reduced width */
+    min-width: 90px;
     font-weight: bold;
 }
 
