@@ -158,6 +158,22 @@ const App = () => {
   });
   const [statusMessage, setStatusMessage] = useState('');
   const [showSavedReadings, setShowSavedReadings] = useState(false);
+  const [isFadingOut, setIsFadingOut] = useState(false);
+
+  // Add useEffect to auto-clear status message
+  useEffect(() => {
+    if (statusMessage) {
+      const timer = setTimeout(() => {
+        setIsFadingOut(true);
+        // Wait for fade-out animation to complete before clearing the message
+        setTimeout(() => {
+          setStatusMessage('');
+          setIsFadingOut(false);
+        }, 300);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [statusMessage]);
 
   // Calculate occult metrics
   useEffect(() => {
@@ -643,9 +659,15 @@ const App = () => {
       )}
       
       {statusMessage && (
-        <div className="status-message">
+        <div className={`status-message ${isFadingOut ? 'fade-out' : ''}`}>
           {statusMessage}
-          <button className="close-btn" onClick={() => setStatusMessage('')}>×</button>
+          <button className="close-btn" onClick={() => {
+            setIsFadingOut(true);
+            setTimeout(() => {
+              setStatusMessage('');
+              setIsFadingOut(false);
+            }, 300);
+          }}>×</button>
         </div>
       )}
       
