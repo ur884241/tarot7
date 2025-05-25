@@ -159,14 +159,17 @@ const App = () => {
   const [statusMessage, setStatusMessage] = useState('');
   const [showSavedReadings, setShowSavedReadings] = useState(false);
   const [isFadingOut, setIsFadingOut] = useState(false);
+  const [showStatusMessage, setShowStatusMessage] = useState(false);
 
   // Add useEffect to auto-clear status message
   useEffect(() => {
     if (statusMessage) {
+      setShowStatusMessage(true);
       const timer = setTimeout(() => {
         setIsFadingOut(true);
         // Wait for fade-out animation to complete before clearing the message
         setTimeout(() => {
+          setShowStatusMessage(false);
           setStatusMessage('');
           setIsFadingOut(false);
         }, 300);
@@ -658,12 +661,13 @@ const App = () => {
         </div>
       )}
       
-      {statusMessage && (
+      {showStatusMessage && (
         <div className={`status-message ${isFadingOut ? 'fade-out' : ''}`}>
           {statusMessage}
           <button className="close-btn" onClick={() => {
             setIsFadingOut(true);
             setTimeout(() => {
+              setShowStatusMessage(false);
               setStatusMessage('');
               setIsFadingOut(false);
             }, 300);
